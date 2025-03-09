@@ -1,16 +1,15 @@
 import os
 import json
 import random
-import time
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-# from pyngrok import ngrok
-# from transformers import pipeline
+from pyngrok import ngrok
+from transformers import pipeline
 
-# pipe = pipeline("text-generation", model="Qwen/Qwen2.5-1.5B-Instruct", max_new_tokens=256)
+pipe = pipeline("text-generation", model="Qwen/Qwen2.5-1.5B-Instruct", max_new_tokens=256)
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
 STATIC_FOLDER = os.path.join(os.path.dirname(__file__), 'static')
 
@@ -34,7 +33,7 @@ def home():
 
 @app.route('/generate_ai_judgement', methods=['POST'])
 def generate_ai_judgement():
-    data = request.get_json()  # Get JSON data from request
+    data = request.get_json()
     sentence1 = data.get('sentence1', '')
     sentence2 = data.get('sentence2', '')
     
@@ -89,14 +88,14 @@ def gen(s1, s2):
         """},
     ]
     
-    return f"AI Judgement based on:\nSentence 1: {s1}\nSentence 2: {s2}"
-    # out = pipe(messages)
-    # return out[0]["generated_text"][-1]['content']
+    # return f"AI Judgement based on:\nSentence 1: {s1}\nSentence 2: {s2}"
+    out = pipe(messages)
+    return out[0]["generated_text"][-1]['content']
 
 
 if __name__ == '__main__':
-    # public_url = ngrok.connect(5000).public_url
-    # print(f"Public URL: {public_url}")
+    public_url = ngrok.connect(5000).public_url
+    print(f"Public URL: {public_url}")
 
     # Start the Flask app
     app.run(port=5000)
