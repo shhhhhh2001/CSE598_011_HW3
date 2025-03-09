@@ -8,7 +8,26 @@
 </head>
 <body>
 
-Thank you for your submission!
+    <h2>Thank you for your submission!</h2>
+    <h3>Please copy the following content to MTruk.</h3>
+    <textarea id="ai_judgement" rows="10" cols="80" readonly>{{ out }}</textarea>
+    <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+
+    <script>
+        function copyToClipboard() {
+            let textarea = document.getElementById("ai_judgement");
+
+            // Select and copy content
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);  // For mobile compatibility
+            document.execCommand("copy");
+
+            // Provide user feedback
+            let copyButton = document.getElementById("copyButton");
+            copyButton.innerText = "Copied!";
+            setTimeout(() => { copyButton.innerText = "Copy"; }, 2000); // Reset button text after 2s
+        }
+    </script>
     
 </body>
 </html>

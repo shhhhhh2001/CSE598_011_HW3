@@ -2,7 +2,7 @@ import os
 import json
 import random
 import time
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 # from pyngrok import ngrok
 # from transformers import pipeline
@@ -41,11 +41,6 @@ def generate_ai_judgement():
     if sentence1 == '' or sentence2 == '':
         return jsonify({'ai_judgement': 'Error! Refresh the page and try again.'})
 
-    # Simulate AI processing time
-    # time.sleep(3)
-
-    # Dummy AI processing logic
-    # ai_text = f"AI Judgement based on:\nSentence 1: {sentence1}\nSentence 2: {sentence2}"
     ai_text = gen(sentence1, sentence2)
 
     return jsonify({'ai_judgement': ai_text})
@@ -53,8 +48,19 @@ def generate_ai_judgement():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    print(request.form)
-    return render_template('submit.html')
+    raw = request.form.to_dict()
+    out = {
+        "q1": raw["q1"],
+        "q2": raw["q2"],
+        "q3": raw["correct_causation_hidden"],
+        "idx": raw["idx"],
+        "ai_gen": raw["ai_gen"]
+    }
+    print(str(out))
+    context = {
+        "out": str(out)
+    }
+    return render_template('submit.html', **context)
 
 
 def gen(s1, s2):
@@ -64,7 +70,6 @@ def gen(s1, s2):
         I will give you 2 sentences. Judge whether the causation is the same.
         Give short explanation first and then indicate whether the causation is the same.
         In explanation, simply point out what causes what for each sentence. Using => to indicate causation.
-        If the causation is different, generate a correct summary of sentence 1.
 
         For example:
         Sentence 1: Because the road was icy and the driver was speeding, the car skidded off the highway and crashed into a tree, causing significant damage to the front bumper and injuring the driver.
@@ -74,8 +79,7 @@ def gen(s1, s2):
         Sentence 1: Icy road and speeding => car crash.
         Sentence 2: Car crash => icy road and speeding.
         The causation is different.
-        Correct summary of sentence 1: Icy road and speeding caused car crash.
-
+        
 
         Here is your task:
         Sentence 1: {s1}
