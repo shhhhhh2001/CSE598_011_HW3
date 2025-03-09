@@ -1,0 +1,42 @@
+[
+    {
+    "long_sentence": "Because the road was icy and the driver was speeding, the car skidded off the highway and crashed into a tree, causing significant damage to the front bumper and injuring the driver.",
+    "incorrect_causation_summary": "The car crashed into a tree, which made the road icy and caused the driver to speed."
+    },
+    {
+    "long_sentence": "After months of rigorous training and strict dieting, the athlete was able to improve his endurance and set a new personal record in the marathon.",
+    "incorrect_causation_summary": "The athlete set a new personal record in the marathon, which motivated him to start rigorous training and strict dieting."
+    },
+    {
+    "long_sentence": "Due to a sudden drop in temperature overnight, the lake froze over completely, making it possible for people to skate on its surface in the morning.",
+    "incorrect_causation_summary": "People skated on the lake in the morning, which caused the temperature to drop overnight and the lake to freeze."
+    },
+    {
+    "long_sentence": "Because the experiment's results contradicted their hypothesis, the researchers decided to modify their theoretical framework and conduct additional tests to verify their findings.",
+    "incorrect_causation_summary": "The researchers modified their theoretical framework, which caused the experiment's results to contradict their hypothesis."
+    },
+    {
+    "long_sentence": "Since the construction workers didn't follow safety protocols, the scaffolding collapsed, leading to delays in the project and the implementation of stricter safety regulations.",
+    "incorrect_causation_summary": "The implementation of stricter safety regulations led to the scaffolding collapsing because the construction workers didn't follow safety protocols."
+    },
+    {
+    "long_sentence": "After consuming contaminated food at the restaurant, several customers developed severe food poisoning symptoms and had to be hospitalized.",
+    "incorrect_causation_summary": "Several customers were hospitalized, which resulted in them consuming contaminated food at the restaurant."
+    },
+    {
+    "long_sentence": "Since the software update fixed multiple security vulnerabilities, users were able to browse the internet more safely without worrying about cyber threats.",
+    "incorrect_causation_summary": "Users browsed the internet more safely, which caused the software update to fix multiple security vulnerabilities."
+    },
+    {
+    "long_sentence": "Because the company released a defective product without proper testing, they faced a massive backlash from customers and had to issue a public apology.",
+    "incorrect_causation_summary": "The company issued a public apology, which caused them to release a defective product without proper testing."
+    },
+    {
+    "long_sentence": "After studying for months and practicing daily, she passed the medical licensing exam with an outstanding score, securing her residency at a prestigious hospital.",
+    "incorrect_causation_summary": "She secured her residency at a prestigious hospital, which motivated her to study for months and practice daily to pass the medical licensing exam."
+    },
+    {
+    "long_sentence": "Due to a lack of maintenance over the years, the old bridge developed large cracks and was eventually deemed unsafe for public use.",
+    "incorrect_causation_summary": "The bridge was deemed unsafe for public use, which caused a lack of maintenance over the years and led to large cracks developing."
+    }
+]

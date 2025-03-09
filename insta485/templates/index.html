@@ -44,7 +44,7 @@
 
         <div class="right">
             <form action="/submit" method="post" enctype="multipart/form-data">
-                <label>Q1: Is the causation the same between 2 sentences?</label>
+                <label>Q1: Is the causation the same between Sentence 1 and Sentence 2?</label>
                 <div class="radio-group">
                     <label><input type="radio" name="q1" value="same"> Same</label>
                     <label><input type="radio" name="q1" value="different"> Different</label>
@@ -60,11 +60,14 @@
 
                 <label>Q3: If wrong, what is the correct causation?</label>
                 <div class="radio-group">
-                    <input type="text" name="correct_causation" id="correct_causation" style="width: 300px; height: 40px;" required>
+                    <textarea id="correct_causation"></textarea>
+                    <input type="hidden" name="correct_causation_hidden" id="correct_causation_hidden">
                 </div>
 
                 <label>Q4: Your uniqname?</label>
                 <label><input type="text" name="uniqname" id="uniqname" required></label>
+
+                <input type="hidden" name="idx" value="{{ idx }}">
                 
                 <input type="submit" name="submit" value="submit"/>
             </form>
@@ -76,6 +79,7 @@
             const form = document.querySelector("form"); // Add a form element around your content
             const correctCausationTextarea = document.getElementById("correct_causation");
             const bothCorrectCheckbox = document.getElementById("both_correct");
+            const uniqnameInput = document.getElementById("uniqname");
             const wrongOptions = document.querySelectorAll(".wrong_option");
     
             const q1Options = document.querySelectorAll("input[name='q1']");
@@ -84,10 +88,10 @@
             function updateCausationField() {
                 if (bothCorrectCheckbox.checked) {
                     correctCausationTextarea.value = "NONE";
-                    correctCausationTextarea.readonly = true;
+                    correctCausationTextarea.disabled = true;
                 } else {
                     correctCausationTextarea.value = "";
-                    correctCausationTextarea.readonly = false;
+                    correctCausationTextarea.disabled = false;
                 }
             }
     
@@ -126,6 +130,14 @@
                     event.preventDefault();
                     return false;
                 }
+
+                if (uniqnameInput.value.trim() === "") {
+                    alert("Please provide your uniqname.");
+                    event.preventDefault();
+                    return false;
+                }
+
+                document.getElementById("correct_causation_hidden").value = correctCausationTextarea.value;
     
                 return true;
             }
