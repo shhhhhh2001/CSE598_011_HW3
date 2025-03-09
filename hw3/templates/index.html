@@ -30,6 +30,11 @@
 </head>
 <body>
     <h2>AI Causation Evaluation</h2>
+    <h3>Instructions:</h3>
+    <p><span>You will be given 2 sentences. Sentence 1 is written by human. Sentence 2 is the summary of sentence 1 by AI.</span></p>
+    <p><span>AI would also make real-time judgements that may help your understanding, but they may make mistakes.</span></p>
+    <p><span>Your first task is to annotate whether those 2 sentences are the same in causation (Q1).</span></p>
+    <p><span>Your second task is to annotate whether AI's judgement is correct (Q2) and provide correction if wrong (Q3).</span></p>
     <div class="container">
         <div class="left">
             <label>Sentence 1:</label>
@@ -64,9 +69,6 @@
                     <input type="hidden" name="correct_causation_hidden" id="correct_causation_hidden">
                 </div>
 
-                <label>Q4: Your uniqname?</label>
-                <label><input type="text" name="uniqname" id="uniqname" required></label>
-
                 <input type="hidden" name="idx" value="{{ idx }}">
                 <input type="hidden" name="ai_gen" id="ai_gen">
                 
@@ -80,7 +82,6 @@
             const form = document.querySelector("form"); // Add a form element around your content
             const correctCausationTextarea = document.getElementById("correct_causation");
             const bothCorrectCheckbox = document.getElementById("both_correct");
-            const uniqnameInput = document.getElementById("uniqname");
             const wrongOptions = document.querySelectorAll(".wrong_option");
     
             const q1Options = document.querySelectorAll("input[name='q1']");
@@ -128,12 +129,6 @@
     
                 if (!bothCorrectCheckbox.checked && correctCausationTextarea.value.trim() === "") {
                     alert("Please provide a correct causation in Question 3.");
-                    event.preventDefault();
-                    return false;
-                }
-
-                if (uniqnameInput.value.trim() === "") {
-                    alert("Please provide your uniqname.");
                     event.preventDefault();
                     return false;
                 }
