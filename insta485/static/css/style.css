@@ -1,0 +1,143 @@
+#header{
+    width: 600px;
+    height: 40px;
+    position: static;
+    margin: auto;
+    border-bottom-color: gray;
+    border-bottom-style: solid;
+    padding: 5px;
+}
+
+#logo h1{
+    font-size: 28px;
+    line-height: 0px;
+    font-family: Calibri, serif;
+    color: black;
+}
+
+#logo{
+    height: 36px;
+    width: auto;
+    float: left;
+}
+
+#explore{
+    height: 36px;
+    width: auto;
+    float: right;
+    line-height: 42px;
+}
+
+a{
+    text-decoration: none;
+    position: sticky;
+}
+
+a:link, a:visited, a:hover, a:active{
+    color: black;
+}
+
+#contents{
+    width: 560px;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.post{
+    width: 540px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.post_header{
+    width: 510px;
+    height: auto;
+    margin: auto;
+    padding: 15px;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.post_user{
+    margin: auto;
+    float: left;
+    height: 54px;
+}
+
+.post_time{
+    margin: auto;
+    float: right;
+    height: 54px;
+}
+
+.post_user p{
+    font-size: 24px;
+    line-height: 0;
+    font-family: "Times New Roman", serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+.post_time p{
+    font-size: 18px;
+    line-height: 14px;
+    color: gray;
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+.post_time form{
+    float: right;
+}
+
+.post_img{
+    width: 540px;
+}
+
+.post_icon{
+    height: 54px;
+    float: left;
+}
+
+.post_comments{
+    line-height: 200%;
+    padding: 5px;
+}
+
+.post_single_comment_name{
+    float: left;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+.posts{
+    float: left;
+}
+
+.personal_info{
+    padding-left: 20px;
+}
+
+.followers{
+    float: left;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.following{
+    font-weight: bold;
+}
+
+.post_content_img img{
+    padding: 20px;
+    width: 240px;
+    float: left;
+}
