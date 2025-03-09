@@ -144,6 +144,23 @@
     
             form.addEventListener("submit", validateForm);
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initially set textarea content to "generating..."
+            let textarea = document.getElementById("ai_judgement");
+            textarea.value = "Generating...";
+
+            // Fetch the AI-generated judgment
+            fetch("/generate_ai_judgement")
+                .then(response => response.json())
+                .then(data => {
+                    textarea.value = data.ai_judgement;  // Update with the actual response
+                })
+                .catch(error => {
+                    textarea.value = "Error loading AI judgement.";
+                    console.error("Error fetching AI judgment:", error);
+                });
+        });
     </script>
     
 </body>

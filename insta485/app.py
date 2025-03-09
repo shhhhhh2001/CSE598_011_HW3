@@ -1,7 +1,8 @@
 import os
 import json
 import random
-from flask import Flask, render_template, request, redirect, url_for
+import time
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
@@ -23,6 +24,14 @@ def home():
     }
     
     return render_template('index.html', **context)
+
+
+@app.route('/generate_ai_judgement')
+def generate_ai_judgement():
+    time.sleep(5)  # Simulate AI processing time
+    ai_text = "The AI judgment is complete. Here is the result..."
+    return jsonify({'ai_judgement': ai_text})
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
