@@ -1,108 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>insta485</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Causation Evaluation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .left, .right {
+            width: 48%;
+        }
+        textarea {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>AI Causation Evaluation</h2>
+    <div class="container">
+        <div class="left">
+            <label>Sentence 1:</label>
+            <textarea id="sentence1" readonly>{{ s1 }}</textarea>
 
-  <body>
-    <div id="header">
-      <div id="logo">
-        <a href="/"><h1>Insta485</h1></a>
-      </div>
-      <div id="explore">
-        <a href="/explore/">explore</a>|<a href="/users/{{ logname }}/"
-          >{{ logname }}</a
-        >
-      </div>
+            <label>Sentence 2:</label>
+            <textarea id="sentence2" readonly>{{ s2 }}</textarea>
+
+            <label>AI Judgement:</label>
+            <textarea id="ai_judgement" readonly>Generating...</textarea>
+        </div>
+
+        <div class="right">
+            <form action="/submit" method="post" enctype="multipart/form-data">
+                <label>Q1: Is the causation the same between 2 sentences?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="q1" value="same"> Same</label>
+                    <label><input type="radio" name="q1" value="different"> Different</label>
+                </div>
+
+                <label>Q2: Is the AI judgement correct?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="q2" value="both_correct" id="both_correct"> Both are correct.</label>
+                    <label><input type="radio" name="q2" value="sentence1_wrong" class="wrong_option"> Causation of Sentence 1 is wrong.</label>
+                    <label><input type="radio" name="q2" value="sentence2_wrong" class="wrong_option"> Causation of Sentence 2 is wrong.</label>
+                    <label><input type="radio" name="q2" value="both_wrong" class="wrong_option"> Both are wrong.</label>
+                </div>
+
+                <label>Q3: If wrong, what is the correct causation?</label>
+                <div class="radio-group">
+                    <input type="text" name="correct_causation" id="correct_causation" style="width: 300px; height: 40px;" required>
+                </div>
+
+                <label>Q4: Your uniqname?</label>
+                <label><input type="text" name="uniqname" id="uniqname" required></label>
+                
+                <input type="submit" name="submit" value="submit"/>
+            </form>
+        </div>
     </div>
 
-    <div id="contents">
-      {% for post in data %}
-
-      <div class="post">
-        <div class="post_header">
-          <div class="post_user">
-            <a href="/users/{{ post.owner }}/">
-              <div style="float: left">
-                <img
-                  src="{{ url_for('get_img', filename=post.ufilename) }}"
-                  class="post_icon"
-                  alt="post_icon"
-                />
-              </div>
-              <div style="float: left; padding-left: 10px">
-                <p>{{ post.owner }}</p>
-              </div>
-            </a>
-          </div>
-          <div class="post_time">
-            <a href="/posts/{{ post.postid }}/">
-              <p>{{ post.created }}</p>
-            </a>
-          </div>
-        </div>
-        <div>
-          <img
-            src="{{ url_for('get_img', filename=post.pfilename) }}"
-            class="post_img"
-            alt="post_img"
-          />
-        </div>
-        <div class="post_comments">
-          {% if post.likes == 1 %}
-          <div class="post_likes">1 like</div>
-          {% else %}
-          <div class="post_likes">{{ post.likes }} likes</div>
-          {% endif %} {% for comment in post.comments %}
-          <div class="post_single_comment">
-            <div class="post_single_comment_name">
-              <a href="/users/{{ comment.owner }}/">{{ comment.owner }}</a>
-            </div>
-            <div class="post_single_comment_content">{{ comment.text }}</div>
-          </div>
-          {% endfor %}
-        </div>
-
-        {% if post.islike == 0 %}
-        <form
-          action="/likes/?target=/"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          <input type="hidden" name="operation" value="like" />
-          <input type="hidden" name="postid" value="{{ post.postid }}" />
-          <input type="submit" name="like" value="like" />
-        </form>
-        {% else %}
-        <form
-          action="/likes/?target=/"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          <input type="hidden" name="operation" value="unlike" />
-          <input type="hidden" name="postid" value="{{ post.postid }}" />
-          <input type="submit" name="unlike" value="unlike" />
-        </form>
-        {% endif %}
-
-        <form
-          action="/comments/?target=/"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          <input type="hidden" name="operation" value="create" />
-          <input type="hidden" name="postid" value="{{ post.postid }}" />
-          <input type="text" name="text" required />
-          <input type="submit" name="comment" value="comment" />
-        </form>
-      </div>
-
-      {% endfor %}
-    </div>
-  </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form"); // Add a form element around your content
+            const correctCausationTextarea = document.getElementById("correct_causation");
+            const bothCorrectCheckbox = document.getElementById("both_correct");
+            const wrongOptions = document.querySelectorAll(".wrong_option");
+    
+            const q1Options = document.querySelectorAll("input[name='q1']");
+            const q2Options = document.querySelectorAll("input[name='q2']");
+    
+            function updateCausationField() {
+                if (bothCorrectCheckbox.checked) {
+                    correctCausationTextarea.value = "NONE";
+                    correctCausationTextarea.readonly = true;
+                } else {
+                    correctCausationTextarea.value = "";
+                    correctCausationTextarea.readonly = false;
+                }
+            }
+    
+            bothCorrectCheckbox.addEventListener("change", function () {
+                updateCausationField();
+            });
+    
+            wrongOptions.forEach(option => {
+                option.addEventListener("change", function () {
+                    bothCorrectCheckbox.checked = false;
+                    updateCausationField();
+                });
+            });
+    
+            updateCausationField(); // Ensure correct state on page load
+    
+            function isChecked(options) {
+                return Array.from(options).some(option => option.checked);
+            }
+    
+            function validateForm(event) {
+                if (!isChecked(q1Options)) {
+                    alert("Please select an option for Question 1.");
+                    event.preventDefault();
+                    return false;
+                }
+    
+                if (!isChecked(q2Options)) {
+                    alert("Please select an option for Question 2.");
+                    event.preventDefault();
+                    return false;
+                }
+    
+                if (!bothCorrectCheckbox.checked && correctCausationTextarea.value.trim() === "") {
+                    alert("Please provide a correct causation in Question 3.");
+                    event.preventDefault();
+                    return false;
+                }
+    
+                return true;
+            }
+    
+            form.addEventListener("submit", validateForm);
+        });
+    </script>
+    
+</body>
 </html>
