@@ -39,7 +39,7 @@
             <textarea id="sentence2" readonly>{{ s2 }}</textarea>
 
             <label>AI Judgement:</label>
-            <textarea id="ai_judgement" readonly>Generating...</textarea>
+            <textarea id="ai_judgement" style="height: 100px;" readonly>Generating...</textarea>
         </div>
 
         <div class="right">
@@ -68,6 +68,7 @@
                 <label><input type="text" name="uniqname" id="uniqname" required></label>
 
                 <input type="hidden" name="idx" value="{{ idx }}">
+                <input type="hidden" name="ai_gen" id="ai_gen">
                 
                 <input type="submit" name="submit" value="submit"/>
             </form>
@@ -138,6 +139,7 @@
                 }
 
                 document.getElementById("correct_causation_hidden").value = correctCausationTextarea.value;
+                document.getElementById("ai_gen").value = document.getElementById("ai_judgement").value;
     
                 return true;
             }
@@ -146,20 +148,30 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Initially set textarea content to "generating..."
+            // Get user input
+            let sentence1 = document.getElementById("sentence1").value;
+            let sentence2 = document.getElementById("sentence2").value;
             let textarea = document.getElementById("ai_judgement");
+
+            // Show "Generating..." while waiting for response
             textarea.value = "Generating...";
 
-            // Fetch the AI-generated judgment
-            fetch("/generate_ai_judgement")
-                .then(response => response.json())
-                .then(data => {
-                    textarea.value = data.ai_judgement;  // Update with the actual response
-                })
-                .catch(error => {
-                    textarea.value = "Error loading AI judgement.";
-                    console.error("Error fetching AI judgment:", error);
-                });
+            // Send data via POST request
+            fetch("/generate_ai_judgement", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ sentence1: sentence1, sentence2: sentence2 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                textarea.value = data.ai_judgement;  // Update with the generated response
+            })
+            .catch(error => {
+                textarea.value = "Error loading AI judgement.";
+                console.error("Error fetching AI judgment:", error);
+            });
         });
     </script>
     
